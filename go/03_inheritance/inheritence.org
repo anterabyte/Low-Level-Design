@@ -2,6 +2,166 @@
 
 A another general property of OOPs where if used one object could inherit property of other objects. But in Golang unlike other other OOPs langauge like java, cpp etc. does implement by struct embedding and interface. This promotes code reusability, composition over inheritence and flexibility.
 
-#+begin_src go
+** Key Benefits of Struct Embedding in Go
 
+- Composition over Inheritance: Encourages modular and maintainable design.
+- Code Reusability: Allows reusing functionality without rigid class hierarchies.
+- Method Overriding: Embedded structs’ methods can be overridden in the outer struct.
+- Polymorphism: Achieved using interfaces rather than class-based inheritance.
+
+Some Examples -
+
+** Simple inheritance
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type name struct {
+
+          first string
+          last string
+  }
+
+  func (n name) eat() {
+          fmt.Println(n.first, n.last,"was eating some food over there" )
+  }
+
+  type human struct {
+          name
+  }
+
+  func (h human) flies() {
+          fmt.Println(h.first, h.last,"was flying")
+  }
+
+  func main() {
+
+          myhuman := human{name{first:"Kal",last:"kothri",}}
+
+          myhuman.eat()
+          myhuman.flies()
+  }
+#+end_src
+
+** Multiple Inheritance Alternative: Composition
+
+Go does not support multiple inheritence but struct embedding make sure to have struct inherit multiple embedded structs.
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type name struct {
+          first string
+  }
+
+  type human struct {
+          isHuman string
+  }
+
+  type bond struct {
+          name
+          human 
+  }
+
+  func main(){
+          var b bond = bond{
+                  first: "James",
+                  isHuman: "true",
+          }
+
+          fmt.Println(b.first+""+"bond","is alive and",b.isHuman,"he is human")
+  }
+#+end_src
+
+** Method overriding in Struct Embedding
+
+Child can override the inherit method by defining the new method with same name.
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type Animal struct {
+          name string
+  }
+
+  func (a Animal) speak(){
+
+          fmt.Println(a.name, "is saying something...")
+  }
+
+  type Dog struct {
+          Animal
+  }
+
+  func (d Dog) speak(){
+          fmt.Println(d.name, "is barking right now...")
+  }
+
+  func main(){
+          var d Dog = Dog{Animal{name: "happy",}}
+
+          d.speak()
+  }
+#+end_src
+
+** Using Interfaces for Polymorphism
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type Animal interface {
+          Speak()
+  }
+
+  type Dog struct {
+          Name string
+  }
+
+  func (d Dog) Speak() {
+          fmt.Println(d.Name, "barks")
+  }
+
+  func main() {
+          var myAnimal Animal = Dog{Name: "Buddy"}
+          myAnimal.Speak()
+  }
+#+end_src
+
+** Real-World Example
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type Employee struct{
+          Name string
+          salary float64
+  }
+
+  func (e Employee) displayinfo(){
+          fmt.Println(e.Name,"has got",e.salary,"salary this month")
+  }
+  type Manager struct{
+          Employee
+          bonus float64
+  }
+
+  func (m Manager) displayinfo(){
+
+          fmt.Println(m.Employee.Name, "has got",m.bonus, "bonus this month")
+  }
+
+  func main() {
+          manager := Manager{Employee{Name: "Alice", Salary: 70000}, Bonus: 10000}
+          manager.DisplayDetails()
+  }
 #+end_src
