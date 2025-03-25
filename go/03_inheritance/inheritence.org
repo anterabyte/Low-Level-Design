@@ -1,0 +1,7 @@
+* Inheritence in Golang
+
+A another general property of OOPs where if used one object could inherit property of other objects. But in Golang unlike other other OOPs langauge like java, cpp etc. does implement by struct embedding and interface. This promotes code reusability, composition over inheritence and flexibility.
+
+#+begin_src go
+
+#+end_src

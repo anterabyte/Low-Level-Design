@@ -1,0 +1,140 @@
+* Interfaces in golang
+
+Important concept in OOPs where interface enable types to follow comman structure while enforcing certain behaviour. Unlike other langauges go uses implicit methods to enable easily attached to the interfaces by implementing its methods.
+
+Interface is a set of method signature that a type must implements, it defines a contract that type must adhere to. Interface in go enables polymorphism that allows both of type (interface and struct) to enable shared common behaviour.
+
+** Key Characteristics of Interfaces in Go
+- Interfaces in Go are implicit, meaning types don’t explicitly declare they implement an interface.
+- They define method signatures that types must implement.
+- Interfaces enable polymorphism, allowing functions to operate on different types that share a common behavior.
+- They support multiple interface implementation, unlike struct embedding.
+
+
+Ex -
+
+** Single Interface
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  // Defines a single interface
+  type vehical interface {
+          start()
+          stop()
+  }
+
+  type brand struct {
+          car string
+  }
+
+  func (b brand) start() {
+
+          fmt.Println("Start this car named -",b.car)
+
+  }
+
+  func (b brand) stop() {
+
+          fmt.Println("Stop this car named -",b.car)
+
+  }
+  
+  func main() {
+
+          var v vehical = brand{car: "maruti",}
+
+          v.start()
+          v.stop()
+  }
+#+end_src
+
+** Multiple Interface
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type fly interface {
+
+          flyingcars()
+  }
+
+  type drive interface {
+
+          drivingcars()
+	
+  }
+
+  type cars struct {}
+
+  func (c cars) flyingcars(){
+
+          fmt.Println("I am flying in a car")
+  }
+
+  func (c cars) drivingcars(){
+
+          fmt.Println("I am driving a car")
+  }
+
+  func main(){
+
+          var f fly = cars{}
+
+          f.flyingcars()
+
+          var d drive = cars{}
+
+          d.drivingcars()
+
+  }
+#+end_src
+
+** Interface composition
+
+#+begin_src go
+  package main
+
+  type car interface {
+          drive()
+  }
+
+  type bus interface {
+          heavydrive()
+  }
+
+  type vehical interface {
+          car
+          bus
+  }
+#+end_src
+
+if any type implements drive() and heavydrive() methods it automatically get enabled to implements car, bus and vehical interface.
+
+** Real-life example
+
+#+begin_src go
+  package main
+
+  import "fmt"
+
+  type Paymentmethod interface {
+          Pay(amount float64)
+  }
+
+  type Creditcardpayment struct {}
+
+  func (c Creditcardpayment) Pay(amount float64){
+          fmt.Println("This payment is done by card...")
+  }
+
+  type Paytm struct {}
+
+  func (c Paytm) Pay(amount float64) {
+          fmt.Println("This payment is done by paytm..")
+  }
+#+end_src
