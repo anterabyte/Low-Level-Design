@@ -1,0 +1,11 @@
+* DRY (Don't Repeat Yourself)
+
+DRY is one of the basic priciple to write efficient and maintainable code, DRY stands for Don't Repeat yourself. So we will begin with basic understanding of DRY and then move forward.
+
+** What is DRY principle
+
+DRY is a priciple method to write maintainable, modular and efficient code. It also enables to avoid same functinality in multiple code files. It enables to reduce redundancy and write code that does one thing well.
+
+** Why DRY is important
+
+*** 
